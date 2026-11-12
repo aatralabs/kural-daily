@@ -55,7 +55,7 @@ export const uses24HourClock = (): boolean => {
     if (typeof hour12 === 'boolean') return !hour12;
     if (hourCycle) return hourCycle === 'h23' || hourCycle === 'h24';
   } catch {
-    // Fall through to formatting check
+    // Older engines: fall back to looking at a formatted time
   }
   // Day-period words differ by language (AM, PM, பிற்பகல், 下午…); 13:00 shown as "13" means 24-hour
   return /(^|\D)13(\D|$)/.test(new Date(2000, 0, 1, 13, 0).toLocaleTimeString([], { hour: 'numeric' }));

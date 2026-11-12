@@ -37,6 +37,18 @@ describe('DataService', () => {
     }
   });
 
+  it('has clean text: no doubled spaces, zero-width characters, stray quotes or markup', () => {
+    for (const k of getAllKurals()) {
+      for (const text of [k.line1, k.line2, k.eng, k.tam_exp, k.eng_exp, k.chap_tam, k.chap_eng ?? '']) {
+        expect(text).toBe(text.trim());
+        expect(text).not.toMatch(/ {2}|[\u200B\u200C\uFEFF]/);
+      }
+      for (const text of [k.eng, k.eng_exp, k.chap_eng ?? '']) {
+        expect(text).not.toMatch(/\w"s\b| [,.;:!?](\s|$)|[`*\\]/);
+      }
+    }
+  });
+
   it('looks up by number', () => {
     expect(getKuralByNumber(1)?.line1).toContain('அகர');
     expect(getKuralByNumber(1331)).toBeUndefined();

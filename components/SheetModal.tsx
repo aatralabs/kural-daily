@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Modal, ScrollView, Pressable } from 'react-native';
-import { Text, IconButton, useTheme } from 'react-native-paper';
+import { Text, IconButton } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAppTheme, space, radius } from '../theme';
 
 interface SheetModalProps {
   visible: boolean;
@@ -23,7 +24,7 @@ interface SheetModalProps {
 export const SheetModal: React.FC<SheetModalProps> = ({
   visible, onClose, title, children, scrollable = true, headerRight, footer, subtitle, contentKey, height = '90%',
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const insets = useSafeAreaInsets();
 
   return (
@@ -71,8 +72,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   content: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    borderTopLeftRadius: radius.xl,
+    borderTopRightRadius: radius.xl,
     // A hairline edge so the sheet stays distinct from the dimmed page in Night
     borderWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: 0,
@@ -82,9 +83,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: 16,
-    paddingRight: 4,
-    paddingVertical: 4,
+    paddingLeft: space.lg,
+    paddingRight: space.xs,
+    paddingVertical: space.xs,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   title: {
@@ -95,15 +96,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scrollContent: {
-    paddingTop: 16,
-    paddingBottom: 24,
+    paddingTop: space.lg,
+    paddingBottom: space.xxl,
   },
   grabber: {
     alignSelf: 'center',
     width: 36,
     height: 4,
     borderRadius: 2,
-    marginTop: 8,
+    marginTop: space.sm,
     opacity: 0.4,
   },
   flex: {

@@ -29,10 +29,7 @@ const useStoreHydrated = () => {
   return hydrated;
 };
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
   initialRouteName: '(tabs)',
@@ -41,7 +38,7 @@ export const unstable_settings = {
 // Labels for the reminder time picker
 registerTranslation('en', en);
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Keep the splash screen up until fonts and saved settings have loaded
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -63,7 +60,6 @@ export default function RootLayout() {
     Inter_700Bold,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);

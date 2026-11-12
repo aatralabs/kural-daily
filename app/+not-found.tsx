@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { useAppTheme } from '../theme';
+import { useAppTheme, space } from '../theme';
 
 export default function NotFoundScreen() {
   const theme = useAppTheme();
@@ -23,10 +23,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: space.xl,
   },
   link: {
-    marginTop: 15,
-    paddingVertical: 15,
+    marginTop: space.md,
+    paddingVertical: space.md,
   },
 });

@@ -158,26 +158,16 @@ export const generateFindChapterQuestion = (): QuizQuestion => {
 };
 
 export const generateJumbledKuralQuestion = (): QuizQuestion => {
-  const allKurals = getAllKurals();
-  const randomKural = getRandomKural(allKurals);
-  
-  const fullText = `${randomKural.line1} ${randomKural.line2}`;
-  const words = fullText.split(/\s+/).filter(w => w.length > 0);
-  
-  // For jumbled kural, the "options" will be the shuffled words
-  // The "correct answer" isn't a single index, but the sequence.
-  // However, to fit the interface, we can adapt or handle it specifically in UI.
-  // Here we provide shuffled words.
-  
-  const jumbledWords = shuffleArray([...words]);
-
+  const kural = getRandomKural(getAllKurals());
+  const words = `${kural.line1} ${kural.line2}`.split(/\s+/).filter(Boolean);
+  // The answer is the words' original order, so there are no options to pick from
   return {
     id: newId(),
-    kural: randomKural,
-    questionText: "Arrange the words in the correct order:",
-    options: [], // Not used for this type in the same way
-    correctAnswerIndex: -1, // Not used
+    kural,
+    questionText: '',
+    options: [],
+    correctAnswerIndex: -1,
     type: 'jumbled-kural',
-    jumbledWords
+    jumbledWords: shuffleArray([...words]),
   };
 };

@@ -53,7 +53,7 @@ export const VoicePickerSheet: React.FC<VoicePickerSheetProps> = ({ visible, onC
     <SheetModal
       visible={visible}
       onClose={close}
-      title="Reading voice"
+      title="Listening voice"
       subtitle="Voices come from your phone's text-to-speech"
       scrollable={false}
       headerRight={<IconButton icon="refresh" onPress={refresh} accessibilityLabel="Refresh voices" />}

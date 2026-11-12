@@ -15,6 +15,7 @@ import { ScreenHeader } from '../../components/ui/ScreenHeader';
 import { Stats } from '../../components/ui/Stats';
 import { SectionLabel } from '../../components/ui/SectionLabel';
 import { EmptyState } from '../../components/ui/EmptyState';
+import { Group } from '../../components/ui/Group';
 import { AboutKuralSheet } from '../../components/AboutKuralSheet';
 import { MilestoneGrid } from '../../components/profile/MilestoneGrid';
 import { ReadingCalendar } from '../../components/profile/ReadingCalendar';
@@ -47,16 +48,6 @@ const PRIVACY_SECTIONS = [
     body: 'The app is suitable for all ages and collects no data from anyone, including children.',
   },
 ];
-
-/** A rounded group of settings rows. */
-const Group: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const theme = useAppTheme();
-  return (
-    <View style={[styles.group, { backgroundColor: theme.colors.surface, borderColor: theme.colors.outlineVariant }]}>
-      {children}
-    </View>
-  );
-};
 
 export default function ProfileScreen() {
   const theme = useAppTheme();
@@ -94,7 +85,7 @@ export default function ProfileScreen() {
     [history]
   );
 
-  // Name shown on the Reading voice row
+  // Name shown on the Listening voice row
   const [voiceName, setVoiceName] = useState<string | null>(null);
   useEffect(() => {
     if (showVoiceModal) return;
@@ -390,12 +381,6 @@ const styles = StyleSheet.create({
   },
   sheetGrid: {
     paddingTop: space.lg,
-  },
-  group: {
-    marginHorizontal: space.lg,
-    borderRadius: radius.lg,
-    borderWidth: StyleSheet.hairlineWidth,
-    overflow: 'hidden',
   },
   version: {
     textAlign: 'center',
