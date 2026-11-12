@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.3.1 (2026-11-12)
 
 ### Tablets and foldables
 - Tablets and foldables can rotate, and the content sits in a centred reading column (at most
