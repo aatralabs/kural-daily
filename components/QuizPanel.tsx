@@ -20,7 +20,7 @@ type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 
 const MODES: { type: QuizType; label: string; icon: IconName; instruction: string }[] = [
   { type: 'missing-word', label: 'Missing word', icon: 'form-textbox', instruction: 'Choose the word that completes the Kural.' },
-  { type: 'meaning-match', label: 'Meaning', icon: 'text-box-check-outline', instruction: 'Which explanation matches this Kural?' },
+  { type: 'meaning-match', label: 'Meaning', icon: 'text-box-check-outline', instruction: 'Which meaning matches this Kural?' },
   { type: 'find-chapter', label: 'Chapter', icon: 'book-search-outline', instruction: 'Which chapter is this Kural from?' },
   { type: 'jumbled-kural', label: 'Jumbled', icon: 'swap-horizontal', instruction: 'Tap the words in the right order.' },
 ];
@@ -96,7 +96,7 @@ export const QuizPanel: React.FC<QuizPanelProps> = ({ scrollRef }) => {
     ? Math.round((quizStats.correctAnswers / quizStats.totalAnswered) * 100)
     : 0;
 
-  // Meaning options are whole explanations, so they use the smaller body size
+  // Meaning options are whole paragraphs, so they use the smaller body size
   const optionTextStyle = gameMode === 'meaning-match' ? type.tamilLabel : type.tamilTitle;
 
   return (
@@ -134,7 +134,6 @@ export const QuizPanel: React.FC<QuizPanelProps> = ({ scrollRef }) => {
             {mode.instruction}
           </Text>
 
-          {/* Question */}
           <View style={[styles.questionCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.outlineVariant }]}>
             {gameMode === 'jumbled-kural' ? (
               <View style={styles.jumbledAnswer}>
@@ -170,7 +169,6 @@ export const QuizPanel: React.FC<QuizPanelProps> = ({ scrollRef }) => {
             )}
           </View>
 
-          {/* Answers */}
           {gameMode === 'jumbled-kural' ? (
             <View>
               <View style={styles.wordBank}>
@@ -243,7 +241,6 @@ export const QuizPanel: React.FC<QuizPanelProps> = ({ scrollRef }) => {
             </View>
           )}
 
-          {/* Result */}
           {isAnswered && (
             <Animated.View entering={FadeIn.duration(250)} style={styles.result}>
               <View style={[styles.resultBanner, { backgroundColor: isCorrect ? theme.colors.primaryContainer : theme.colors.surfaceVariant }]}>

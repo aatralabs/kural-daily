@@ -171,7 +171,6 @@ export default function LearnScreen() {
               </>
             )}
 
-            {/* How it works */}
             <SectionLabel>How it works</SectionLabel>
             {/* Numbered steps read more clearly than a column of icons */}
             <View style={styles.how}>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl, AppState, Pressable } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl, AppState, Pressable, Platform } from 'react-native';
 import { Text, ActivityIndicator, Button, Snackbar, IconButton } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -102,11 +102,19 @@ export default function TodayScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.colors.primary} colors={[theme.colors.primary]} />
         }
       >
-        {/* Greeting */}
         <View style={styles.header}>
           <View style={{ flex: 1 }}>
             <Text style={[type.tamilLabelStrong, { color: theme.colors.primary }]}>வணக்கம் · இன்றைய குறள்</Text>
-            <Text variant="headlineMedium" accessibilityRole="header" style={{ color: theme.colors.onBackground }}>
+            {/* Long dates ("Wednesday, September 30") shrink to stay on one line. The web
+                can't shrink text to fit and would cut it off, so there it wraps instead. */}
+            <Text
+              variant="headlineMedium"
+              accessibilityRole="header"
+              numberOfLines={Platform.OS === 'web' ? undefined : 1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.75}
+              style={{ color: theme.colors.onBackground }}
+            >
               {now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}
             </Text>
           </View>
@@ -271,7 +279,8 @@ const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: space.xl,
+    marginHorizontal: space.xl,
   },
   // A plain row under the card, not another card
   chapterRow: {

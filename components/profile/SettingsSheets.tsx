@@ -5,6 +5,7 @@ import { TimePickerModal } from 'react-native-paper-dates';
 import { SheetModal } from '../SheetModal';
 import { AppearancePicker } from './AppearancePicker';
 import { FontPicker } from './FontPicker';
+import { Group } from '../ui/Group';
 import { useSettingsStore, ReadingLanguage } from '../../store/useSettingsStore';
 import { getKuralByNumber } from '../../services/DataService';
 import {
@@ -13,7 +14,7 @@ import {
 } from '../../services/NotificationService';
 import { uses24HourClock } from '../../utils/date';
 import { DEVICE_TEXT_SIZE, useReadingSizes } from '../../hooks/useReadingSizes';
-import { ACCENTS, APPEARANCES, READING_FONTS, useAppTheme, useType, space, radius } from '../../theme';
+import { ACCENTS, APPEARANCES, READING_FONTS, useAppTheme, useType, space } from '../../theme';
 
 export const FONT_SIZES = [
   { value: '20', label: 'S', accessibilityLabel: 'Small' },
@@ -131,7 +132,7 @@ export const ReadingSheet: React.FC<SheetProps> = ({ visible, onClose }) => {
           buttons={LANGUAGES}
         />
       </Block>
-      <Block title="Text size" detail="The couplet, its translation and the meaning">
+      <Block title="Text size" detail="Scales the couplet, translation and meaning together">
         <View style={styles.switchRow}>
           <Text variant="bodyMedium" style={[styles.flex, { color: theme.colors.onSurface }]}>
             Match my phone&apos;s text size
@@ -220,7 +221,7 @@ export const RemindersSheet: React.FC<SheetProps> = ({ visible, onClose }) => {
 
   return (
     <SheetModal visible={visible} onClose={() => { setTestSent(false); onClose(); }} title="Reminders" height="65%">
-      <View style={[styles.group, { backgroundColor: theme.colors.surface, borderColor: theme.colors.outlineVariant }]}>
+      <Group style={styles.groupSpacing}>
         <List.Item
           title="Daily Kural"
           description={notificationsEnabled ? `Each day's Kural at ${formatReminderTime(notificationHour, notificationMinute)}` : 'Off'}
@@ -240,9 +241,9 @@ export const RemindersSheet: React.FC<SheetProps> = ({ visible, onClose }) => {
             />
           </>
         )}
-      </View>
+      </Group>
 
-      <View style={[styles.group, { backgroundColor: theme.colors.surface, borderColor: theme.colors.outlineVariant }]}>
+      <Group style={styles.groupSpacing}>
         <List.Item
           title="Streak reminder"
           description={streakReminderEnabled
@@ -265,10 +266,10 @@ export const RemindersSheet: React.FC<SheetProps> = ({ visible, onClose }) => {
             />
           </>
         )}
-      </View>
+      </Group>
 
       {Platform.OS !== 'web' && (
-        <View style={[styles.group, { backgroundColor: theme.colors.surface, borderColor: theme.colors.outlineVariant }]}>
+        <Group style={styles.groupSpacing}>
           <List.Item
             title="Send a test reminder"
             description={testSent
@@ -279,7 +280,7 @@ export const RemindersSheet: React.FC<SheetProps> = ({ visible, onClose }) => {
             left={(props) => <List.Icon {...props} icon={testSent ? 'check-circle-outline' : 'bell-ring-outline'} />}
             onPress={onTest}
           />
-        </View>
+        </Group>
       )}
 
       <Text variant="bodySmall" style={[styles.note, { color: theme.colors.onSurfaceVariant }]}>
@@ -322,12 +323,8 @@ const styles = StyleSheet.create({
   sizeSample: {
     marginTop: space.md,
   },
-  group: {
-    marginHorizontal: space.lg,
+  groupSpacing: {
     marginTop: space.md,
-    borderRadius: radius.lg,
-    borderWidth: StyleSheet.hairlineWidth,
-    overflow: 'hidden',
   },
   note: {
     paddingHorizontal: space.xl,

@@ -18,6 +18,7 @@ import { buildTheme, resolveAppearance } from '../theme';
 import { en, registerTranslation } from 'react-native-paper-dates';
 import { WelcomeScreen } from '../components/WelcomeScreen';
 import { reminderInputsKey, syncDailyReminders } from '../services/NotificationService';
+import { usePhonePortraitLock } from '../hooks/usePhonePortraitLock';
 
 const useStoreHydrated = () => {
   const [hydrated, setHydrated] = useState(useSettingsStore.persist.hasHydrated());
@@ -29,10 +30,7 @@ const useStoreHydrated = () => {
   return hydrated;
 };
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
   initialRouteName: '(tabs)',
@@ -41,10 +39,11 @@ export const unstable_settings = {
 // Labels for the reminder time picker
 registerTranslation('en', en);
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Keep the splash screen up until fonts and saved settings have loaded
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  usePhonePortraitLock();
   const [loaded, error] = useFonts({
     NotoSansTamil_400Regular,
     NotoSansTamil_500Medium,
@@ -63,7 +62,6 @@ export default function RootLayout() {
     Inter_700Bold,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);

@@ -1,7 +1,6 @@
 import data from '../assets/data/thirukkural.json';
 import { Kural } from '../types/kural';
 
-// Cast the imported JSON to the Kural type
 const kurals: Kural[] = data as Kural[];
 
 const kuralsByNumber = new Map<number, Kural>(kurals.map(k => [k.number, k]));

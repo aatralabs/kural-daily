@@ -35,11 +35,10 @@ const ActionButton: React.FC<{
   label: string;
   onPress: () => void;
   active?: boolean;
-  activeColor?: string;
   accessibilityLabel?: string;
-}> = ({ icon, label, onPress, active, activeColor, accessibilityLabel }) => {
+}> = ({ icon, label, onPress, active, accessibilityLabel }) => {
   const theme = useAppTheme();
-  const color = active ? activeColor ?? theme.colors.primary : theme.colors.onSurfaceVariant;
+  const color = active ? theme.colors.primary : theme.colors.onSurfaceVariant;
   return (
     <Pressable
       onPress={onPress}
@@ -165,7 +164,6 @@ export const KuralCard: React.FC<KuralCardProps> = ({ kural, defaultExpanded = f
           )}
         </View>
 
-        {/* The couplet */}
         {showTamil && (
           <View style={styles.verse}>
             <KuralVerse kural={kural} size={sizes.verse} minSize={sizes.verseMin} />
@@ -279,13 +277,11 @@ export const KuralCard: React.FC<KuralCardProps> = ({ kural, defaultExpanded = f
           </Animated.View>
         )}
 
-        {/* Actions */}
         <View style={[styles.actions, { borderTopColor: theme.colors.rule }]}>
           <ActionButton
             icon={isFavorite ? 'bookmark' : 'bookmark-outline'}
             label={isFavorite ? 'Saved' : 'Save'}
             active={isFavorite}
-            activeColor={theme.colors.primary}
             onPress={handleFavoritePress}
             accessibilityLabel={isFavorite ? 'Remove from saved' : 'Save Kural'}
           />

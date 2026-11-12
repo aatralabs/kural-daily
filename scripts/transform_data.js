@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { cleanKural } = require('./cleanText');
 
 // Rebuilds assets/data/thirukkural.json from the raw source files.
 // Usage: node scripts/transform_data.js <path/to/thirukkural.json> <path/to/detail.json>
@@ -15,14 +16,9 @@ try {
   const source = JSON.parse(rawData);
   const details = JSON.parse(rawDetail);
   
-  // Create a lookup map for chapter details based on kural number
+  // Chapter details for each Kural number.
+  // detail.json: [{ section: { detail: [book -> chapterGroup -> chapters (start-end)] } }]
   const kuralMap = new Map();
-
-  // Iterate through the nested structure of detail.json to build the map
-  // Structure: Root -> Section (Paul) -> ChapterGroup (Iyal) -> Chapter (Adhigaram) -> Range (start-end)
-  
-  // The detail.json structure is a bit deep.
-  // Root is an array with one object containing "section"
   const sections = details[0].section.detail;
 
   sections.forEach(section => {
@@ -42,8 +38,7 @@ try {
         const chapterEng = chapter.translation;
         const start = chapter.start;
         const end = chapter.end;
-        
-        // Map each kural number in this range to its metadata
+
         for (let i = start; i <= end; i++) {
           kuralMap.set(i, {
             sect_tam: sectionTam,
@@ -58,7 +53,6 @@ try {
     });
   });
 
-  // Now transform the flat kural list using the map
   const kurals = source.kural.map(item => {
     const number = item.Number;
     const meta = kuralMap.get(number) || {
@@ -70,20 +64,20 @@ try {
       chap_eng: "Unknown"
     };
 
-    return {
-      number: number,
+    return cleanKural({
+      number,
       sect_tam: meta.sect_tam,
       chapgrp_tam: meta.chapgrp_tam,
       chap_tam: meta.chap_tam,
       line1: item.Line1,
       line2: item.Line2,
-      tam_exp: item.mv, // Using Mu. Varadarajan's explanation
+      tam_exp: item.mv, // Mu. Varadarasanar's explanation
       eng_exp: item.explanation,
       eng: item.Translation,
       sect_eng: meta.sect_eng,
       chapgrp_eng: meta.chapgrp_eng,
       chap_eng: meta.chap_eng
-    };
+    });
   });
 
   if (kurals.length !== 1330) {

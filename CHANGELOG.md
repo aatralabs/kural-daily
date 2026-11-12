@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+### Tablets and foldables
+- Tablets and foldables can rotate, and the content sits in a centred reading column (at most
+  720 wide) instead of stretching across the screen. Phones stay in portrait. (Android 16 ignores
+  a portrait-only lock on large screens, and Google Play asks apps to drop it.)
+
+### Smaller app
+- Release builds are shrunk and optimised with R8 (Google Play's DEX optimisation check).
+
+### Fixed
+- **Cleaner text in all 1330 Kurals.** English translations no longer show a double space between
+  their two lines (440 Kurals), stray backslashes before quotation marks (36) or footnotes run into
+  the text (560, 610, 617, 1060, 1131). Chapter names read "another's" and "Love's" instead of
+  `another"s`, and English meanings have no space before ? or ,. Invisible characters that could
+  split a Tamil letter from its vowel sign are gone from the Tamil meanings.
+- Long dates on Today ("Wednesday, September 30") stay on one line instead of pushing the Kural down.
+- The same words everywhere: "meaning" (பொருள்) in the welcome tour, quiz and Share, "Listening
+  voice" for the voice sheet, and "Share image" in sentence case like the other buttons. Shared
+  text no longer calls the translation "Meaning".
+
 ## 1.3.0 (2026-10-08)
 
 A redesign around reading and learning the Thirukkural, and the first open-source release.

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Share } from 'react-native';
+import { View, StyleSheet, ScrollView, Pressable, Share } from 'react-native';
 import { Text, Button, Chip } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { captureRef } from 'react-native-view-shot';
@@ -9,7 +9,7 @@ import { Kural } from '../types/kural';
 import { useSettingsStore } from '../store/useSettingsStore';
 import { SheetModal } from './SheetModal';
 import { FitLines } from './FitLines';
-import { useAppTheme, useType } from '../theme';
+import { useAppTheme, useType, space, radius } from '../theme';
 
 interface ShareModalProps {
   visible: boolean;
@@ -33,10 +33,10 @@ export const buildShareText = (
 ) => {
   let message = `Thirukkural #${kural.number}`;
   if (options.tamil) message += `\n\n${kural.line1}\n${kural.line2}`;
-  if (options.english) message += `\n\nMeaning:\n${kural.eng}`;
+  if (options.english) message += `\n\n${kural.eng}`;
   if (options.explanation) {
-    if (options.tamil) message += `\n\nTamil Explanation:\n${kural.tam_exp}`;
-    if (options.english) message += `\n\nEnglish Explanation:\n${kural.eng_exp}`;
+    if (options.tamil) message += `\n\nபொருள்:\n${kural.tam_exp}`;
+    if (options.english) message += `\n\nMeaning:\n${kural.eng_exp}`;
   }
   return message;
 };
@@ -54,26 +54,21 @@ export const ShareModal: React.FC<ShareModalProps> = ({ visible, onDismiss, kura
   const [error, setError] = useState<string | null>(null);
   const viewRef = useRef<View>(null);
 
-  const selectedTheme = THEMES.find(t => t.id === selectedThemeId) || THEMES[0];
+  const selectedTheme = THEMES.find((t) => t.id === selectedThemeId) ?? THEMES[0];
   const options = { tamil: shareIncludeTamil, english: shareIncludeEnglish, explanation: shareIncludeExplanation };
 
   const handleShareImage = async () => {
     setError(null);
     setSharing(true);
     try {
-      const uri = await captureRef(viewRef, {
-        format: 'png',
-        quality: 1,
-        result: 'tmpfile'
-      });
-
+      const uri = await captureRef(viewRef, { format: 'png', quality: 1, result: 'tmpfile' });
       if (await Sharing.isAvailableAsync()) {
         await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: `Thirukkural #${kural.number}` });
       } else {
         setError('Image sharing is not available on this device. Try sharing as text.');
       }
     } catch (e) {
-      console.error("Sharing failed", e);
+      console.error('Image share failed', e);
       setError('Could not create the image. Try sharing as text.');
     } finally {
       setSharing(false);
@@ -92,7 +87,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ visible, onDismiss, kura
     try {
       await Share.share({ message: buildShareText(kural, options) });
     } catch (e) {
-      console.error("Text share failed", e);
+      console.error('Text share failed', e);
     }
   };
 
@@ -103,7 +98,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ visible, onDismiss, kura
   return (
     <SheetModal visible={visible} onClose={onDismiss} title="Share Kural" scrollable={false}>
       <ScrollView style={styles.contentScroll}>
-        {/* Preview Area */}
+        {/* The image that gets shared */}
         <View style={[styles.previewContainer, { backgroundColor: theme.colors.surfaceVariant }]}>
           <View
             ref={viewRef}
@@ -171,7 +166,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ visible, onDismiss, kura
           </View>
         </View>
 
-        {/* Content options (saved for next time) */}
+        {/* Remembered for next time */}
         <Text variant="titleMedium" style={styles.sectionTitle}>Include</Text>
         <View style={styles.optionRow}>
           <Chip mode="outlined" selected={shareIncludeTamil} showSelectedCheck onPress={onToggleTamil} style={[styles.optionChip, shareIncludeTamil && selectedChip]}>
@@ -181,21 +176,22 @@ export const ShareModal: React.FC<ShareModalProps> = ({ visible, onDismiss, kura
             English
           </Chip>
           <Chip mode="outlined" selected={shareIncludeExplanation} showSelectedCheck onPress={toggleShareIncludeExplanation} style={[styles.optionChip, shareIncludeExplanation && selectedChip]}>
-            Explanation
+            Meaning
           </Chip>
         </View>
 
-        {/* Theme Selector */}
         <Text variant="titleMedium" style={styles.sectionTitle}>Style</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.themeSelector}>
           {THEMES.map((t) => (
-            <TouchableOpacity
+            <Pressable
               key={t.id}
               onPress={() => setSelectedThemeId(t.id)}
+              accessibilityRole="radio"
+              accessibilityState={{ checked: selectedThemeId === t.id }}
               accessibilityLabel={`${t.name} style`}
               style={[
                 styles.themeOption,
-                selectedThemeId === t.id && { borderColor: theme.colors.primary, borderWidth: 2 }
+                { borderColor: selectedThemeId === t.id ? theme.colors.primary : 'transparent' },
               ]}
             >
               <LinearGradient
@@ -204,15 +200,15 @@ export const ShareModal: React.FC<ShareModalProps> = ({ visible, onDismiss, kura
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
               />
-              <Text variant="labelSmall" style={{ textAlign: 'center', marginTop: 4 }}>{t.name}</Text>
-            </TouchableOpacity>
+              <Text variant="labelSmall" style={styles.themeName}>{t.name}</Text>
+            </Pressable>
           ))}
         </ScrollView>
       </ScrollView>
 
       <View style={[styles.actions, { borderTopColor: theme.colors.outlineVariant }]}>
         {error && (
-          <Text variant="bodySmall" style={{ color: theme.colors.error, textAlign: 'center', marginBottom: 8 }}>
+          <Text variant="bodySmall" style={[styles.error, { color: theme.colors.error }]}>
             {error}
           </Text>
         )}
@@ -224,7 +220,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ visible, onDismiss, kura
           disabled={sharing}
           style={styles.shareButton}
         >
-          Share Image
+          Share image
         </Button>
         <View style={styles.textActions}>
           <Button mode="outlined" icon="text" onPress={handleShareText} style={styles.flex}>
@@ -248,27 +244,25 @@ const styles = StyleSheet.create({
   },
   textActions: {
     flexDirection: 'row',
-    gap: 8,
+    gap: space.sm,
   },
   previewContainer: {
-    padding: 20,
+    padding: space.xl,
     alignItems: 'center',
   },
+  // The only shadow in the app: the preview is a picture of a card (design.md)
   cardWrapper: {
     width: '100%',
     maxWidth: 320,
     minHeight: 400,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
   },
   cardWrapperFixed: {
-    aspectRatio: 4 / 5, // Portrait aspect ratio for social media
+    aspectRatio: 4 / 5,
     minHeight: undefined,
   },
   card: {
@@ -326,37 +320,46 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   sectionTitle: {
-    paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 10,
+    paddingHorizontal: space.xl,
+    marginTop: space.xl,
+    marginBottom: space.sm,
   },
   optionRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: 16,
-    gap: 8,
+    paddingHorizontal: space.lg,
+    gap: space.sm,
   },
   optionChip: {
     marginRight: 0,
   },
   themeSelector: {
-    paddingHorizontal: 16,
-    marginBottom: 20,
+    paddingHorizontal: space.lg,
+    marginBottom: space.xl,
   },
   themeOption: {
-    marginRight: 12,
-    borderRadius: 8,
+    marginRight: space.md,
+    borderRadius: radius.sm + 2,
+    borderWidth: 2,
     padding: 2,
   },
   themePreview: {
     width: 60,
     height: 60,
-    borderRadius: 8,
+    borderRadius: radius.sm,
+  },
+  themeName: {
+    textAlign: 'center',
+    marginTop: space.xs,
   },
   actions: {
-    padding: 16,
-    gap: 8,
+    padding: space.lg,
+    gap: space.sm,
     borderTopWidth: StyleSheet.hairlineWidth,
+  },
+  error: {
+    textAlign: 'center',
+    marginBottom: space.sm,
   },
   shareButton: {
     paddingVertical: 2,

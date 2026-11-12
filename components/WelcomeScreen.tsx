@@ -18,8 +18,8 @@ import { useAppTheme, space, radius, useType } from '../theme';
 
 const LANGUAGES: { value: ReadingLanguage; title: string; detail: string }[] = [
   { value: 'both', title: 'Tamil and English', detail: 'The original couplet with a translation' },
-  { value: 'tamil', title: 'தமிழ் மட்டும்', detail: 'Couplet and Tamil explanation only' },
-  { value: 'english', title: 'English only', detail: 'Translation and English explanation' },
+  { value: 'tamil', title: 'தமிழ் மட்டும்', detail: 'The couplet and its Tamil meaning' },
+  { value: 'english', title: 'English only', detail: 'The translation and its English meaning' },
 ];
 
 // The tour: two short hands-on steps, then the two choices that matter

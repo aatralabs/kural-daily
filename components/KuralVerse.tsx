@@ -42,7 +42,7 @@ export const KuralVerse: React.FC<KuralVerseProps> = ({ kural, size, minSize, sh
       <FitLines
         lines={[kural.line1, kural.line2]}
         maxSize={size}
-        minSize={minSize ?? minVerseSize(size)}
+        minSize={minSize ?? readingSizes(size).verseMin}
         styleAt={(s) => ({ ...type.kural(s), color: theme.colors.ink })}
         renderLine={renderLine}
         selectable
@@ -50,9 +50,6 @@ export const KuralVerse: React.FC<KuralVerseProps> = ({ kural, size, minSize, sh
     </View>
   );
 };
-
-/** The smallest the couplet may shrink to so it fits on two lines. */
-export const minVerseSize = (size: number) => readingSizes(size).verseMin;
 
 const styles = StyleSheet.create({
   verse: {
