@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Modal, ScrollView, Pressable } from 'react-native';
 import { Text, IconButton } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppTheme, space, radius } from '../theme';
+import { READING_WIDTH, useAppTheme, space, radius } from '../theme';
 
 interface SheetModalProps {
   visible: boolean;
@@ -72,6 +72,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   content: {
+    width: '100%',
+    maxWidth: READING_WIDTH,
+    alignSelf: 'center',
     borderTopLeftRadius: radius.xl,
     borderTopRightRadius: radius.xl,
     // A hairline edge so the sheet stays distinct from the dimmed page in Night

@@ -3,7 +3,7 @@ import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Platform } from 'react-native';
-import { useAppTheme, useType } from '../../theme';
+import { READING_WIDTH, useAppTheme, useType } from '../../theme';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { learningSummary } from '../../utils/srs';
 import { toLocalDateKey } from '../../utils/date';
@@ -36,7 +36,8 @@ export default function TabLayout() {
           borderTopColor: theme.colors.outlineVariant,
         },
         tabBarLabelStyle: { ...type.uiMedium, fontSize: 11 },
-        sceneStyle: { backgroundColor: theme.colors.background },
+        // On large screens the content is a centred column, not stretched edge to edge
+        sceneStyle: { backgroundColor: theme.colors.background, width: '100%', maxWidth: READING_WIDTH, alignSelf: 'center' },
       }}
       screenListeners={{
         tabPress: () => {

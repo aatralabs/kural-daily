@@ -18,6 +18,7 @@ import { buildTheme, resolveAppearance } from '../theme';
 import { en, registerTranslation } from 'react-native-paper-dates';
 import { WelcomeScreen } from '../components/WelcomeScreen';
 import { reminderInputsKey, syncDailyReminders } from '../services/NotificationService';
+import { usePhonePortraitLock } from '../hooks/usePhonePortraitLock';
 
 const useStoreHydrated = () => {
   const [hydrated, setHydrated] = useState(useSettingsStore.persist.hasHydrated());
@@ -42,6 +43,7 @@ registerTranslation('en', en);
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  usePhonePortraitLock();
   const [loaded, error] = useFonts({
     NotoSansTamil_400Regular,
     NotoSansTamil_500Medium,

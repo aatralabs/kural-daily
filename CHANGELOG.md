@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Tablets and foldables
+- Tablets and foldables can rotate, and the content sits in a centred reading column (at most
+  720 wide) instead of stretching across the screen. Phones stay in portrait. (Android 16 ignores
+  a portrait-only lock on large screens, and Google Play asks apps to drop it.)
+
+### Smaller app
+- Release builds are shrunk and optimised with R8 (Google Play's DEX optimisation check).
+
 ### Fixed
 - **Cleaner text in all 1330 Kurals.** English translations no longer show a double space between
   their two lines (440 Kurals), stray backslashes before quotation marks (36) or footnotes run into

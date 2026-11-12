@@ -52,6 +52,8 @@ Set in `theme/index.ts`. Never hard-code a colour in a component.
   text and 16 (`lg`) for containers.
 - Radii come from `radius`. Containers use 16–22; small controls use pills. Plain rows and lists
   are not rounded at all.
+- On tablets and foldables the content is a centred column no wider than `READING_WIDTH` (720),
+  so lines stay a readable length; bottom sheets follow the same width.
 - No shadows in the app. Separation comes from a hairline border or a tint. The one exception
   is the share-image preview, which is a picture of a card.
 
