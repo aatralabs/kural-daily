@@ -10,6 +10,11 @@
 </p>
 
 <p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.aatralabs.kuraldaily"><b>Get it on Google Play</b></a> ·
+  <a href="https://github.com/aatralabs/kural-daily/releases/latest">Download the APK</a>
+</p>
+
+<p align="center">
   <a href="LICENSE">GPL-3.0</a> · <a href="PRIVACY.md">Privacy</a> · <a href="CHANGELOG.md">Changelog</a> ·
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
@@ -102,7 +107,7 @@ services/            Data, daily order, quiz, notifications, speech
 store/               Persisted settings, progress and migrations
 theme/               Page × accent colours, typography, reading sizes
 utils/               Dates and streaks, spaced review, milestones, reminder planning, voices
-plugins/             Expo config plugin for the Android voice-settings intents
+plugins/             Expo config plugins: Android voice-settings intents, optimized R8 rules
 assets/data/         thirukkural.json: all 1330 Kurals (generated, see below)
 scripts/             transform_data.js: rebuilds the data file from its sources
 docs/                Device test plan and release steps

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Release builds use R8's optimizing rules, for lower memory use and faster code (a Google Play
+  suggestion).
+
 ## 1.3.1 (2026-11-12)
 
 ### Tablets and foldables

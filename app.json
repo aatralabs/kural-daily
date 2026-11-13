@@ -62,6 +62,7 @@
       ],
       "expo-font",
       "./plugins/withVoiceSettingsQueries",
+      "./plugins/withOptimizedR8",
       [
         "expo-build-properties",
         {
