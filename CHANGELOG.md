@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.3.2 (2026-11-13)
 
 - Release builds use R8's optimizing rules and optimized resource shrinking, for lower memory use
   and faster code (Google Play suggestions).
