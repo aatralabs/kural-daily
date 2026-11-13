@@ -1,14 +1,25 @@
-// The React Native template shrinks release builds with Android's default rules,
-// which include -dontoptimize. Use the optimizing variant so R8 also optimizes
-// the code (Google Play flags the unoptimized setup as costing memory and speed).
-const { withAppBuildGradle } = require('expo/config-plugins');
+// Release builds: let R8 optimize as well as shrink. The React Native template uses
+// Android's default rules, which include -dontoptimize; switch to the optimizing
+// variant. Also turn on optimized resource shrinking (the default from Android
+// Gradle plugin 9). Google Play flags both as costing memory and speed.
+const { withAppBuildGradle, withGradleProperties } = require('expo/config-plugins');
+
+const setProperty = (properties, key, value) => {
+  const existing = properties.find((p) => p.type === 'property' && p.key === key);
+  if (existing) existing.value = value;
+  else properties.push({ type: 'property', key, value });
+};
 
 module.exports = function withOptimizedR8(config) {
-  return withAppBuildGradle(config, (cfg) => {
+  config = withAppBuildGradle(config, (cfg) => {
     cfg.modResults.contents = cfg.modResults.contents.replace(
       'getDefaultProguardFile("proguard-android.txt")',
       'getDefaultProguardFile("proguard-android-optimize.txt")'
     );
+    return cfg;
+  });
+  return withGradleProperties(config, (cfg) => {
+    setProperty(cfg.modResults, 'android.r8.optimizedResourceShrinking', 'true');
     return cfg;
   });
 };

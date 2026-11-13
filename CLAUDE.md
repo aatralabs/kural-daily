@@ -51,7 +51,7 @@ full picture; this file holds the decisions and loose ends that aren't obvious f
 - **Kural data**: `assets/data/thirukkural.json` is cleaned by `scripts/cleanText.js` (spaces,
   quotes, footnotes, zero-width characters); a test in `DataService.test.ts` guards it.
 - **Release builds**: R8 minify and resource shrinking (`expo-build-properties`) with the
-  optimizing rules (`plugins/withOptimizedR8.js`).
+  optimizing rules and optimized resource shrinking (`plugins/withOptimizedR8.js`).
 
 ## Releasing (see `docs/releasing.md`)
 
@@ -65,7 +65,7 @@ full picture; this file holds the decisions and loose ends that aren't obvious f
 
 - Play Console notice about deprecated edge-to-edge APIs comes from React Native, react-native-screens
   and Material components; it clears with a future Expo SDK update. The BitmapFactory notice is
-  library code too.
+  library code too, and "upgrade to Android Gradle plugin 9" waits on Expo (SDK 54 uses 8.11).
 - Trader status (EU) in Play Console: the owner's decision.
 - Bundled Tamil/English explanations and translations (`assets/data`) belong to their authors.
   Before any paid version, confirm the rights to use them commercially or replace them.
